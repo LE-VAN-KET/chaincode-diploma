@@ -65,7 +65,7 @@ public class Diploma {
     @Property
     private final String hoiDongThi;
     @Property
-    private final String decisionNumber; /* QĐ/ĐH/2019-123456 */
+    private final String decisionNumber;
     @Property
     private final String decisionEstablishingCouncil;
     @Property
@@ -79,11 +79,11 @@ public class Diploma {
     @Property
     private final String totalCredits;
     @Property
-    private final String diplomaLink;
+    private String diplomaLink;
     @Property
     private final String note;
     @Property
-    private final String status;
+    private String status;
     @Property
     private final String createdBy;
     @Property
@@ -145,6 +145,14 @@ public class Diploma {
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public void setDiplomaLink(String diplomaLink) {
+        this.diplomaLink = diplomaLink;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getGraduationCatalogId() {

@@ -91,6 +91,25 @@ public class EducertContract implements ContractInterface {
         return genson.serialize(res);
     }
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public Diploma updateDiploma(final Context ctx, final String serialNumber, final String status, final String diplomaLink) {
+        ChaincodeStub stub = ctx.getStub();
+        if (!isExistSerialNumber(ctx, serialNumber)) {
+            String errorMessage = String.format("Diploma %s does not exist", serialNumber);
+            throw new ChaincodeException(errorMessage, DiplomaErrors.DIPLOMA_NOT_FOUND.toString());
+        }
+        String diploma = stub.getStringState(serialNumber);
+        Diploma dip = genson.deserialize(diploma, Diploma.class);
+        if (!"".equals(status)) {
+            dip.setStatus(status);
+        }
+        if (!"".equals(diplomaLink)) {
+            dip.setDiplomaLink(diplomaLink);
+        }
+        stub.putStringState(serialNumber, genson.serialize(dip));
+        return dip;
+    }
+
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String queryAllDiplomas(Context ctx) {
         ChaincodeStub stub = ctx.getStub();
